@@ -9,12 +9,26 @@ function printMessage(username, badgeCount, points){
   console.log(message);
 }
 
-const request = https.get("https://teamtreehouse.com/" + username + ".json", function(response){
-  console.log(response.statusCode);
-})
+
 
 
 //CONNECT TO THE API URL (http://teamtreehouse.com/jessehancock2.json)
+const request = https.get("https://teamtreehouse.com/" + username + ".json", function(response){
+  let body = "";
+  console.log(response.statusCode);
 //Read the data
+  response.on('data', function(chunk){
+    body += chunk;
+  });
+  response.on('end', function(){
+    const profile = JSON.parse(body);
+    console.dir(profile);
+  })
+  console.log(body);
 //Parse the data
 //Print the data
+});
+//This is to check error messages
+request.on("error", function(error){
+  console.error(error.message);
+});
